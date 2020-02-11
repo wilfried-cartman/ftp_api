@@ -52,7 +52,7 @@ module.exports = function (app) {
             }
             console.log('upload files end: ' + request.params.name);
             response.json({
-                name: request.params.name
+                name: fileName[request.params.name]
             })
         })
     });
