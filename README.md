@@ -7,18 +7,10 @@ Technologies used are:
 * Javascript
 * NodeJs - [https://nodejs.org/]
 
-### `npm run build-ts`
-
-Compiles all source `.ts` files to `.js` files in the `dist` folder
-
 ### `node app`
 
-Runs app launch server and all the apps entry point.<br>
+Runs app launch server and all the apps entry point in `src/fileController.js`<br>
 Use [http://localhost:3000](http://localhost:3000) to make an Api call.
-
-### `npm run lint``
-
-Runs ESLint on project files
 
 ## For the debug
 
