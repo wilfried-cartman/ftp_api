@@ -10,7 +10,7 @@ Technologies used are:
 ### `node app`
 
 Runs app launch server and all the apps entry point in `src/fileController.js`<br>
-Images are must store in `src/assets/`. Add your provider folder before store files. 
+Files are must stored in `src/assets/`. Add your provider folder before store files. 
 Use [http://localhost:3000](http://localhost:3000) to make an Api call.
 
 ## For the debug
