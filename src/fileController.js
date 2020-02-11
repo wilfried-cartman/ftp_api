@@ -18,7 +18,7 @@ module.exports = function (app) {
      */
     var storage = multer.diskStorage({
         destination: function (request, file, cb) {
-            let path = 'src/images/' +  request.params.provider
+            let path = 'src/assets/' +  request.params.provider
             cb(null, path)
         },
         filename: function (request, file, cb) {
@@ -32,14 +32,17 @@ module.exports = function (app) {
         }
     });
 
-    /**
+    /**@Post
      * Function which store file
+     * @param provider ::string - folder
+     * @param name ::string - name of file
+     * @param file ::file
+     * @returns JSON {name:"namefile"} or {eror:"eroor"}
      */
     var upload = multer({
         storage: storage
     }).single('file')
     app.post('/image/set/:provider/:name', function (request, response, next) {
-        console.log(__dirname)
         upload(request, response, (error) => {
             if (error) {
                 console.log('upload files error: ', error);
@@ -47,15 +50,18 @@ module.exports = function (app) {
                     error: error
                 })
             }
-            console.log('upload files end: ' + fileName[request.params.name]);
+            console.log('upload files end: ' + request.params.name);
             response.json({
-                name: fileName[request.params.name]
+                name: request.params.name
             })
         })
     });
 
-    /**
+    /**@Get
      * Function which delete files
+     * @param provider ::string - folder
+     * @param paths ::string[] - list of name of files provide in body
+     * @returns true or JSON {result: false}
      */
     app.post('/image/delete/:provider/', function (request, response, next) {
         const paths = request.body.paths;
@@ -63,7 +69,7 @@ module.exports = function (app) {
         let count = 0
         let result = ""
         paths.forEach(path => {
-            path = 'src/images/'+  request.params.provider+ '/' + path
+            path = 'src/assets/'+  request.params.provider+ '/' + path
             fs.exists(path, function (exists) {
                 count++
                 if (exists) {
@@ -86,21 +92,27 @@ module.exports = function (app) {
 
     });
 
-    /**
+    /**@Get
      * Function which get file as base64
+     * @param provider ::string - folder
+     * @param name ::string - name of files
+     * @returns JSON {data: "base64"}
      */
     app.get('/image/get/:provider/:name', function (request, response, next) {
-        const path = './src/images/' + request.params.provider + '/' + request.params.name
+        const path = './src/assets/' + request.params.provider + '/' + request.params.name
         base64Img.base64(path, function(err, data) {
             response.json({data: data})
         })
     });
 
-    /**
+    /**@Get
      * Function which get path of file
+     * @param provider ::string - folder
+     * @param name ::string - name of files
+     * @returns JSON {path: "pathname"}
      */
     app.get('/image/path/get/:provider/:name', function (request, response, next) {
-        const path = './src/images/' + request.params.provider + '/' + request.params.name
+        const path = './src/assets/' + request.params.provider + '/' + request.params.name
         const absolute_path = resolve_path(path)
         response.json({path: absolute_path})
     });
