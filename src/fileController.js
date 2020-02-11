@@ -98,11 +98,24 @@ module.exports = function (app) {
      * @param name ::string - name of files
      * @returns JSON {data: "base64"}
      */
-    app.get('/image/get/:provider/:name', function (request, response, next) {
+    app.get('/image/get/base64/:provider/:name', function (request, response, next) {
         const path = './src/assets/' + request.params.provider + '/' + request.params.name
         base64Img.base64(path, function(err, data) {
             response.json({data: data})
         })
+    });
+
+    
+    /**@Get
+     * Function which get file as base64
+     * @param provider ::string - folder
+     * @param name ::string - name of files
+     * @returns JSON {data: "base64"}
+     */
+    app.get('/image/get/:provider/:name', function (request, response, next) {
+        const path = './src/assets/' + request.params.provider + '/' + request.params.name
+        const file = fs.readFileSync(path,'utf8')
+        response.json({data: file})
     });
 
     /**@Get
